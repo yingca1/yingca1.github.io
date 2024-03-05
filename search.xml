@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Authentication and Authorization Overview</title>
+    <url>/authentication-and-authorization-overview.html</url>
+    <content><![CDATA[<p>Organizing resources and design solutions related to Authentication and Authorization in system design.</p>
+<span id="more"></span>
+
+<h2 id="Terminology"><a href="#Terminology" class="headerlink" title="Terminology"></a>Terminology</h2><ul>
+<li>SSO: Single Sign-On</li>
+<li>CAS: Central Authentication Service</li>
+<li>SAML: Security Assertion Markup Language</li>
+<li>OIDC: OpenID Connect</li>
+</ul>
+<h2 id="OAuth2-amp-OIDC"><a href="#OAuth2-amp-OIDC" class="headerlink" title="OAuth2 &amp; OIDC"></a>OAuth2 &amp; OIDC</h2><p>解决认证问题，身份是否合法，一般用 OpenID Connect<br>解决授权问题，选择访问资源，一般用 OAuth2</p>
+<ul>
+<li><a href="https://developers.google.com/oauthplayground/">https://developers.google.com/oauthplayground/</a></li>
+<li><a href="https://www.oauth.com/playground/">https://www.oauth.com/playground/</a></li>
+</ul>
+<h2 id="Identity-as-a-Service"><a href="#Identity-as-a-Service" class="headerlink" title="Identity-as-a-Service"></a>Identity-as-a-Service</h2><h3 id="Providers"><a href="#Providers" class="headerlink" title="Providers"></a>Providers</h3><ul>
+<li><a href="https://azure.microsoft.com/services/active-directory">Azure Active Directory (Azure AD)</a>. </li>
+<li><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html">Amazon Cognito</a></li>
+<li><a href="https://cloud.google.com/identity">Google Cloud Identity</a></li>
+<li><a href="https://help.aliyun.com/product/111120.html">阿里云 应用身份服务</a></li>
+<li><a href="https://www.authing.co/">authing</a></li>
+<li><a href="https://auth0.com/">auth0</a></li>
+<li><a href="https://www.okta.com/">okta</a></li>
+<li><a href="https://github.com/keycloak/keycloak">keycloak</a></li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://help.aliyun.com/document_detail/426090.html">阿里云 - IDaaS 术语表</a></li>
+<li><a href="https://github.com/open-policy-agent/opa">Open Policy Agent (OPA)</a> An open source, general-purpose policy engine.</li>
+<li><a href="https://github.com/casbin/casbin">Casbin</a> An authorization library that supports access control models like ACL, RBAC, ABAC in Golang</li>
+<li><a href="https://github.com/dexidp/dex">Dex IdP</a> OpenID Connect (OIDC) identity and OAuth 2.0 provider with pluggable connectors</li>
+<li><a href="https://github.com/oauth2-proxy/oauth2-proxy">OAuth2 Proxy</a> A reverse proxy that provides authentication with Google, Azure, OpenID Connect and many more identity providers.</li>
+</ul>
+<h2 id="More-Readings"><a href="#More-Readings" class="headerlink" title="More Readings"></a>More Readings</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/578961604">为什么选择 Gloo+OPA+Dex 组合实现 API Gateway?</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg4NDY0NTMyNw==&mid=2247488715&idx=1&sn=20cb99acef84dd05c3d7948213653f48">Zadig 如何用 Dex 实现账号系统管理</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=Mzg4NDY0NTMyNw==&mid=2247486794&idx=1&sn=d6f6684ca0748a63ea9fe2c89372b092">Zadig 基于 OPA 实现 RBAC 和 ABAC 权限管理技术方案详解</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>system design</category>
+        <category>auth</category>
+      </categories>
+      <tags>
+        <tag>IDaas</tag>
+        <tag>AuthZ</tag>
+        <tag>AuthN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用电子设备电池相关基础知识</title>
+    <url>/basic-knowledge-of-battery-for-common-electronic-equipment.html</url>
+    <content><![CDATA[<p>电脑、手机电池的概览、发展、常见设备的容量和充电速度。</p>
+<span id="more"></span>
+
+
+
+<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><p>P（功率）＝U（电压） × I（电流）</p>
+<h2 id="充电速度：从5W到125W"><a href="#充电速度：从5W到125W" class="headerlink" title="充电速度：从5W到125W"></a>充电速度：从5W到125W</h2><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>备注</th>
+<th>功率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>20世纪</td>
+<td>普通充电设备</td>
+<td>5V&#x2F;0.5A</td>
+</tr>
+<tr>
+<td>2007</td>
+<td>iphone</td>
+<td>5V&#x2F;1A</td>
+</tr>
+<tr>
+<td>2010</td>
+<td>USB BC 1.2 协议</td>
+<td>5V&#x2F;1.5A</td>
+</tr>
+<tr>
+<td>2011</td>
+<td>Galaxy Note</td>
+<td>5.3V&#x2F;2A</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>高通QC1.0协议</td>
+<td>5V&#x2F;2A</td>
+</tr>
+</tbody></table>
+<p><a href="http://www.gsm88.com/newsinfo-488.html">http://www.gsm88.com/newsinfo-488.html</a></p>
+<p><a href="https://www.sohu.com/a/165349266_114760">https://www.sohu.com/a/165349266_114760</a></p>
+<h2 id="电池容量"><a href="#电池容量" class="headerlink" title="电池容量"></a>电池容量</h2><table>
+<thead>
+<tr>
+<th>设备</th>
+<th><strong>Milliamp Hours</strong></th>
+<th><strong>Voltage</strong></th>
+<th>瓦时</th>
+<th>发布日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iphone 3GS</td>
+<td>1220 mAh</td>
+<td>3.7 V</td>
+<td>4.51 Wh</td>
+<td>June 19, 2009</td>
+</tr>
+<tr>
+<td>iphone 6</td>
+<td>1810 mAh</td>
+<td>3.82 V</td>
+<td>6.91 Wh</td>
+<td>September 19, 2014</td>
+</tr>
+<tr>
+<td>iphone X</td>
+<td>2716 mAh</td>
+<td>3.81 V</td>
+<td>10.35 Wh</td>
+<td>September 12, 2017</td>
+</tr>
+<tr>
+<td>iphone 12</td>
+<td>2815 mAh</td>
+<td>3.83 V</td>
+<td>10.78 Wh</td>
+<td>October 23, 2020</td>
+</tr>
+<tr>
+<td>Apple iPad Pro 10.5-inch</td>
+<td>8134 mAh</td>
+<td>3.77 V</td>
+<td>30.8 Wh</td>
+<td>June 13, 2017</td>
+</tr>
+<tr>
+<td>MacBook Pro 13” Retina</td>
+<td>6300 mAh</td>
+<td>11.4 V</td>
+<td>71.8 Wh</td>
+<td>Late 2013&#x2F;Mid 2014</td>
+</tr>
+<tr>
+<td>MacBook Pro 15” Retina</td>
+<td>8440 mAh</td>
+<td>11.3 V</td>
+<td>95 Wh</td>
+<td>Late 2013-Mid 2014</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Wh 瓦时，是电量单位，代表电能做功的量。</p>
+<p>mAh 毫安时，是电池容量单位，通常用作电池充放电指标。1440mAh，是指电荷量，代表指以1A的电流输出，则可以使用1.44小时。</p>
+<p>由 P＝U×I 可知 Wh＝V×mAh÷1000</p>
+</blockquote>
+<p>4400mAh，笔记本电池常见有11V左右电压，那么总做功就是4.4<em>11</em>3600&#x3D;174240焦耳。</p>
+<p>3000mAh，手机电池电压是3.6V，那么总做功就是3<em>3.6</em>3600&#x3D;38880焦耳。</p>
+<p>笔记本电池一般都是3串的，一串电压4.2V左右，三串4.2*3, 4400mAH指的是2并3串的容量，</p>
+<p>而手机电池3000mAH是一片电池的电压（4.2V-4.35V）的容量。</p>
+<p>我们以轻薄本中最常见的56Wh电池为例，工作电压7.6v，代入换算公式可知，该电池在7.6v的工作电压下，可以输出的电池电量为7368mAh。</p>
+<p>以手机中最常见的3500mAh电池为例，工作电压3.7v，代入换算公式可知，该电池在3.7v的工作电压下，可以输出的电能为12.95Wh。</p>
+<p>这也是为什么航空业都是采用Wh单位作为电池电量的依据。民航局规定，携带的电脑、充电宝等电子设备的电池电量不能超过100Wh，超过100Wh不超过160Wh需要经过航空公司批准，而160Wh的电池是绝对不能带上飞机的。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>上手电能汽车的基础知识</title>
+    <url>/basic-knowledge-of-electric-car-charging.html</url>
+    <content><![CDATA[<p>电能基础知识、电池容量、百公里电耗、充电方式、价格、常见保养常识。</p>
+<span id="more"></span>
+
+<h2 id="电能相关基础知识"><a href="#电能相关基础知识" class="headerlink" title="电能相关基础知识"></a>电能相关基础知识</h2><h3 id="单相电-amp-三相电"><a href="#单相电-amp-三相电" class="headerlink" title="单相电 &amp; 三相电"></a>单相电 &amp; 三相电</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>单相电</th>
+<th>三相电</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用途</td>
+<td>家用</td>
+<td>工业</td>
+</tr>
+<tr>
+<td>电压</td>
+<td>220V</td>
+<td>380V</td>
+</tr>
+<tr>
+<td>构成</td>
+<td>1根火线，1根零线</td>
+<td>3 根火线</td>
+</tr>
+</tbody></table>
+<h3 id="功率-电压-电流-电阻"><a href="#功率-电压-电流-电阻" class="headerlink" title="功率 电压 电流 电阻"></a>功率 电压 电流 电阻</h3><p>电功的国际单位是J，常用单位kWh（千瓦时，俗称度），1kWh&#x3D;3.6×10e6J</p>
+<h3 id="快充-amp-慢充"><a href="#快充-amp-慢充" class="headerlink" title="快充 &amp; 慢充"></a>快充 &amp; 慢充</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>快充</th>
+<th>慢充</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型</td>
+<td>直流电</td>
+<td>交流电</td>
+</tr>
+<tr>
+<td>功率</td>
+<td>30KW - 100KW</td>
+<td>2.2kw - 22kw</td>
+</tr>
+<tr>
+<td>电压</td>
+<td>500V、780V</td>
+<td>220V 、 380V</td>
+</tr>
+<tr>
+<td>电流</td>
+<td>500V、780V</td>
+<td>220V 、 380V</td>
+</tr>
+</tbody></table>
+<p>快充（一般是直流电）：</p>
+<p>直流充电造价较高，一般设置在大型充电站或停车场，常用的一般为60KW-90KW之间，特斯拉的超级快充即为直流充电，功率在120KW以上。</p>
+<p>慢充（一般是交流电）：</p>
+<p>通过220V 10A&#x2F;16A家用插座。国内普通家庭用电多为220V 40A电表，插座多为10A或16A，通过TESLA随车带的充电线配和相应插头链接并通过中控选择充电电流，即可充电。220V10A每小时充电2.2kwh，可行驶7-10公里，从没电到完全充满需要40小时左右；220V16A每小时充电3.52kwh，可行驶10-18公里，从没电到完全充满需要25小时左右。</p>
+<h2 id="电池容量和续航"><a href="#电池容量和续航" class="headerlink" title="电池容量和续航"></a>电池容量和续航</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>Tesla M3</th>
+<th>蔚来 ES6</th>
+<th>小鹏 P7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电池容量</td>
+<td>55-85 kW·h</td>
+<td><a href="https://www.nio.cn/es6-mileage-calculator">70-100 kW·h</a></td>
+<td>70.8 kW·h</td>
+</tr>
+<tr>
+<td>续航</td>
+<td>445-668 km</td>
+<td>610 km</td>
+<td>586 km</td>
+</tr>
+<tr>
+<td>百公里能耗</td>
+<td>12.4 kWh</td>
+<td>22.23 kWh</td>
+<td>12.5 kWh</td>
+</tr>
+<tr>
+<td>能量密度</td>
+<td>153.2 Wh&#x2F;kg</td>
+<td>170Wh&#x2F;kg</td>
+<td>170 Wh&#x2F;kg</td>
+</tr>
+</tbody></table>
+<p>注意：数据来自网络，可能会不准确，仅供参考</p>
+<p>综合工况电能消耗量：12.4 kW·h &#x2F; 100km<br>电能当量燃料消耗量：1.40 L &#x2F; 100km</p>
+<p>美国规定电池包容量大于或等于16kwh可以拿满7500美元的联邦补贴，所以美国市场的纯电动汽车基本都会超过16kwh</p>
+<p>对比汽油车</p>
+<p>奥迪 A4L 65升<br>宝马 3系 60升 （60 升，官方综合油耗(L&#x2F;100km): 7.2 ，95号汽油为8.21元 &#x2F;升）<br>百公里油耗 8L，汽油价格 5.5元&#x2F;L 左右。</p>
+<h2 id="充电方式及价格"><a href="#充电方式及价格" class="headerlink" title="充电方式及价格"></a>充电方式及价格</h2><h3 id="公共充电站"><a href="#公共充电站" class="headerlink" title="公共充电站"></a>公共充电站</h3><p>充电费用一般包含：电费 + 服务费 + 停车费（取决于停车场是否收费）。</p>
+<ul>
+<li>电费 + 服务费：一般在 1 ~ 2 元&#x2F;度</li>
+<li>服务费很多充电站都会有折扣</li>
+<li>停车费差异较大，得看具体场所</li>
+</ul>
+<p>快充和慢充价格一般差不多，都是按充电度数来计费的，慢充可能需要的时间更长，充同样的电量，停车费要花的多一些。</p>
+<h3 id="家用充电桩"><a href="#家用充电桩" class="headerlink" title="家用充电桩"></a>家用充电桩</h3><p>安装完充电桩，充电产生的费用就只有电费了。民用电一般 0.5 元&#x2F;度，工业用电一般 1 元&#x2F;度</p>
+<p>随身充：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>10A</th>
+<th>16A</th>
+<th>32A</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>充电速度</td>
+<td>13 KM&#x2F;h</td>
+<td>20 KM&#x2F;h</td>
+<td>40 KM&#x2F;h</td>
+</tr>
+<tr>
+<td>功率</td>
+<td>2.2 KW</td>
+<td>3.6 KW</td>
+<td>7.2 KW</td>
+</tr>
+</tbody></table>
+<h3 id="充电速度"><a href="#充电速度" class="headerlink" title="充电速度"></a>充电速度</h3><p><code>车辆电池容量 / 功率 = 充电时间</code></p>
+<ol>
+<li>tesla 自建超级充电桩<ul>
+<li>V1 的充电速度是 300-400km&#x2F;小时，75千瓦</li>
+<li>V2 的充电速度是 800km&#x2F;小时，125kW (两个充电桩共享 145 kW 功率)</li>
+<li>V3 的充电速度在 1200km&#x2F;小时，250千瓦</li>
+</ul>
+</li>
+<li>国家电网的充电服务站点<ul>
+<li>国家电网在高速休息区的大概在 400KM&#x2F;小时左右</li>
+</ul>
+</li>
+<li>三方公司的充电服务站点，和国家电网服务站点差不多。</li>
+<li>自家安装充电桩，参考 tesla 官方家用充电桩<ul>
+<li>单相 220v，功率在 7kw。每小时约 45km</li>
+<li>三相 380v，功率在 11kw。每小时约 65km</li>
+</ul>
+</li>
+</ol>
+<h2 id="电能车的常见问题"><a href="#电能车的常见问题" class="headerlink" title="电能车的常见问题"></a>电能车的常见问题</h2><ul>
+<li>锂电池要避免过充和过放，最好随用随充。</li>
+<li>无需纠结直流&#x2F;交流更伤电池的事情，其实差的没那么大。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>life</category>
+        <category>car</category>
+      </categories>
+      <tags>
+        <tag>electric</tag>
+        <tag>car</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模型评估指标</title>
+    <url>/evaluate-the-accuracy-of-a-service-appropriate.html</url>
+    <content><![CDATA[<p>评估搜索、推荐系统的质量，分类、聚类算法的效果，预测服务的表现等类似问题，在行业内有一套比较科学的方法，也广泛应用于机器学习领域。</p>
+<span id="more"></span>
+
+<h2 id="混淆矩阵（confusion-matrix）"><a href="#混淆矩阵（confusion-matrix）" class="headerlink" title="混淆矩阵（confusion matrix）"></a>混淆矩阵（confusion matrix）</h2><p>假设有 12 张图片，1 代表猫，0 代表狗。使用程序识别图片上的猫狗，识别结果为</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>NO.1</th>
+<th>NO.2</th>
+<th>NO.3</th>
+<th>NO.4</th>
+<th>NO.5</th>
+<th>NO.6</th>
+<th>NO.7</th>
+<th>NO.8</th>
+<th>NO.9</th>
+<th>NO.10</th>
+<th>NO.11</th>
+<th>NO.12</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实际（actual ）</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>预测（prediction ）</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>结果可分为 4 情况：</p>
+<table>
+<thead>
+<tr>
+<th>表示</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TP（True Positive）</td>
+<td>实际为猫，识别为猫</td>
+</tr>
+<tr>
+<td>TN（True Negative）</td>
+<td>实际不是猫，识别不是猫</td>
+</tr>
+<tr>
+<td>FP（False Positive）</td>
+<td>实际不是猫，识别是猫</td>
+</tr>
+<tr>
+<td>FN（False Negative）</td>
+<td>实际是猫，识别为不是猫</td>
+</tr>
+</tbody></table>
+<p>T&#x2F;F：程序判断对不对</p>
+<p>P&#x2F;N：程序判断是不是</p>
+<h2 id="准确率（accuracy）"><a href="#准确率（accuracy）" class="headerlink" title="准确率（accuracy）"></a>准确率（accuracy）</h2><p>评估猫狗识别程序的好坏，往往最容易想到的评测指标就是准确率（预测正确的结果占总样本的百分比）。</p>
+<p>$$accuracy(ACC) &#x3D; \frac{TP + TN}{TP + TN + FP + FN}$$</p>
+<p>当测试样本分布偏差较大时，该指标容易造成结果失真。</p>
+<p>假设有 100 个测试样本，其中 99 个为真，1 个为假。识别程序刚好故障，所有情况全返回为真，那准确率直接表现为 99%，显然不合理。</p>
+<h2 id="精准率（precision）召回率（recall）"><a href="#精准率（precision）召回率（recall）" class="headerlink" title="精准率（precision）召回率（recall）"></a>精准率（precision）召回率（recall）</h2><p>因为准确率指标的问题，衍生发展出精准率和召回率。</p>
+<blockquote>
+<p>另一种翻译可能更直观： precision - 查准率，recall - 查全率</p>
+</blockquote>
+<p><strong>概念讲解直接看 wikipedia 即可，讲的非常清楚。</strong> <a href="https://en.wikipedia.org/wiki/Precision_and_recall">https://en.wikipedia.org/wiki/Precision_and_recall</a></p>
+<p>直接上图&amp;公式</p>
+<img src="https://img.ifnnn.cn/d5fd11c3f37fd43a77699c0fc8650da4.png?imageView2/2/w/640" class="" width="300">
+
+<p>$$\text{precision}&#x3D;\frac{|{\text{relevant documents}}\cap{\text{retrieved documents}}|}{|{\text{retrieved documents}}|}&#x3D;\frac{TP}{TP + FP}$$</p>
+<p>$$\text{recall}&#x3D;\frac{|{\text{relevant documents}}\cap{\text{retrieved documents}}|}{|{\text{relevant documents}}|}&#x3D;\frac{TP}{TP + FN}$$</p>
+<h2 id="F1"><a href="#F1" class="headerlink" title="F1"></a>F1</h2><p>P 和 R 一般比较难平衡，只看 P 或 只看 R 均是不合理的做法。</p>
+<p>为了避免只谈单一指标，同时平衡体现 P 和 R 的效果，于是引入 F-measure 指标（简称 F1 score）：</p>
+<p>$$F&#x3D; 2 * \frac{precision*recall} {precision+recall}$$</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hexo 博客管理图片</title>
+    <url>/hexo-picture-organization.html</url>
+    <content><![CDATA[<p>整理 Hexo 展示图片的各种方式，以及从长期维护，方便易用的角度介绍一下我个人总结的最佳实践。</p>
+<span id="more"></span>
+
+<h2 id="关键知识"><a href="#关键知识" class="headerlink" title="关键知识"></a>关键知识</h2><h3 id="post-asset-folder"><a href="#post-asset-folder" class="headerlink" title="post_asset_folder"></a>post_asset_folder</h3><p>通过 <a href="https://hexo.io/zh-cn/docs/asset-folders.html">文档</a> 查看 <code>post_asset_folder</code> 的详细介绍。</p>
+<p>简单总结：</p>
+<p>post_asset_folder &#x3D; false</p>
+<p><code>![](/images/image.jpg)</code> 这种方式引用图片都可以正常 work，</p>
+<p>post_asset_folder &#x3D; true</p>
+<p><code>![](/images/image.jpg)</code> 这种方式引用图片，仅在文章中显示，首页&#x2F;归档页将不再会显示图片，需要使用 标签插件 引用图片，才能正常显示。</p>
+<h3 id="引用图片的方式"><a href="#引用图片的方式" class="headerlink" title="引用图片的方式"></a>引用图片的方式</h3><ol>
+<li><p><a href="https://hexo.io/zh-cn/docs/tag-plugins#Image">在文章中插入指定大小的图片。</a><br><code>&#123;% img [class names] /path/to/image [width] [height] '"title text" "alt text"' %&#125;</code><br>例如: <code>&#123;% img https://img.ifnnn.cn/b65dc1f4245a9a1230e78bac21f5ee6f.png?imageView2/2/w/640 500 400 %&#125;</code></p>
+</li>
+<li><p><a href="https://hexo.io/zh-cn/docs/asset-folders#%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%BC%95%E7%94%A8%E7%9A%84%E6%A0%87%E7%AD%BE%E6%8F%92%E4%BB%B6">引用文章的资源</a></p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;% asset_path filename %&#125;
+&#123;% asset_img [class names] slug [width] [height] [title text [alt text]] %&#125;
+&#123;% asset_link filename [title] [escape] %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><a href="https://hexo.io/zh-cn/docs/tag-plugins#Embed-image">关于 asset_img 的详细介绍</a></p>
+</li>
+</ol>
+<h3 id="fancybox-点击查看大图"><a href="#fancybox-点击查看大图" class="headerlink" title="fancybox (点击查看大图)"></a>fancybox (点击查看大图)</h3><p><a href="https://github.com/theme-next/theme-next-fancybox3">https://github.com/theme-next/theme-next-fancybox3</a></p>
+<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><ul>
+<li>macOS: <a href="https://imageoptim.com/command-line.html">https://imageoptim.com/command-line.html</a></li>
+<li>Windows: <a href="https://nikkhokkho.sourceforge.io/static.php?page=FileOptimizer">https://nikkhokkho.sourceforge.io/static.php?page=FileOptimizer</a><ul>
+<li>下载地址: <a href="https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/">https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/</a></li>
+</ul>
+</li>
+<li>online: <a href="https://img.top/">https://img.top/</a></li>
+<li>online: <a href="https://squoosh.app/">https://squoosh.app/</a></li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
+<li><p>博客的源代码托管在 github，原则上不应该将大量的图片上传至 git 仓库，所以推荐采用 cdn 外链的方式插入图片。</p>
+</li>
+<li><p>虽然目前的图片cdn 都有魔法参数支持压缩、裁剪，但是原图尽量还是在不失真的前提下，压缩一下，节省体积。具体压缩方法可自由选择。</p>
+</li>
+<li><p>每个文件都有一个 md5 值，就将所有文章中使用的图片全部放在一个文件夹中，然后将文件名改为其 md5 值，保留原始后缀，然后将文件夹中的图片和 cdn 的某个目录保持同步。这样做的好处。</p>
+<ul>
+<li>这样管理很简单、不容易忘，这个文件夹也可以同步到百度云或者其他网盘中，方便备份。</li>
+<li>方便换 cdn 服务商。如果更换 cdn 厂商，只需同步下这个文件夹，全局替换下图片 host + prefix 即可。</li>
+<li>可以随时检查文件名和 md5 值是否一致，以确定是否是原图。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>hexo</tag>
+        <tag>picture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tesla Model3 Overview</title>
+    <url>/tesla-model3-overview.html</url>
+    <content><![CDATA[<p>购车流程、费用、保险、充电、加装配置。</p>
+<span id="more"></span>
+
+<h2 id="购车流程"><a href="#购车流程" class="headerlink" title="购车流程"></a>购车流程</h2><p>买一辆 tesla 相对比较简单，大概流程如下。</p>
+<h3 id="试驾"><a href="#试驾" class="headerlink" title="试驾"></a>试驾</h3><p>买 tesla 一般去的销售中心是官方直售店，和传统 4S 店还是有比较大区别的。</p>
+<p>就近找一家 tesla 销售店即可，tesla 目前只有直售店，直售店主要给你介绍车型、约试驾、确定价格（可分期）。</p>
+<p>建议确定买车前，自己试驾一下，和销售聊一聊，多了解一下想买的车。</p>
+<p>经过试驾以及和销售的沟通，我感受到的是：</p>
+<ol>
+<li>tesla 是非常重视安全的车，在主动安全和被动安全方面都做得很好。</li>
+<li>在自动辅助驾驶和电池管理技术上有很大的技术优势。</li>
+</ol>
+<h3 id="下单"><a href="#下单" class="headerlink" title="下单"></a>下单</h3><p>如果是买全新车，据我所知，基本上没什么可谈的空间，全国官网统一价，官网直接下单和店里下单没啥区别。</p>
+<p>如果考虑准新车，可以加一下销售的微信，朋友圈偶尔会放一些官方回收的二手车，性价比还对不错。</p>
+<p>下单的过程中，有一点需要注意。tesla 有个长期推荐活动，如果使用了 tesla 车主的推荐码，推荐人和被推荐人都可以免费获得 1500km 的超级充电额度。</p>
+<p>如果你要求自己网上下单的话，销售也会以帮忙确认推荐是否成功提交为由，给你他们直售店的专属销售链接，让你填完提交订单后，等他们确认后，再付 1000 块的定金。这样他可以保证这个订单关联了他们店的信息，也可以保证我们自己的免费充电额度成功提交。</p>
+<p>交完 1000 块的定金，就会拉一个交付群，和交付专员确定提车时间即可。提车那天会让你补齐车款。</p>
+<h3 id="提车"><a href="#提车" class="headerlink" title="提车"></a>提车</h3><p>北京的交付中心只有一个，在亦庄。</p>
+<p>进门拿一个流程单，先去确认车辆指标，完事再交车款（可以刷信用卡，没有手续费），然后再去买保险（多选一，价格基本一样），等验车，出临牌（送一个帮上车牌的服务，当场可以约挂正式牌时间，地点多选一，在 app 提交即可）。</p>
+<p>最后需要听一场车辆讲解的讲堂，完事就可以开车走人了。</p>
+<h3 id="上牌"><a href="#上牌" class="headerlink" title="上牌"></a>上牌</h3><p>到了约定上牌的把车开过去，拍照验完车，等着出牌就行，有人帮忙跑整个流程。早点去，大概一上午就能拿到牌。</p>
+<p>总的来说，非常省心，不用提防、和销售斗智斗勇，非常适合不爱操心的“懒人”。</p>
+<h2 id="费用"><a href="#费用" class="headerlink" title="费用"></a>费用</h2><p>费用相对比较透明简单，官方网站上选完配置直接出价格。</p>
+<p>价格 291800 CNY，国家补贴 20250 CNY，最终价格 271550 CNY</p>
+<p>tesla 除了收取这个费用，别的其他费用就真没有了。</p>
+<h2 id="保险"><a href="#保险" class="headerlink" title="保险"></a>保险</h2><p>车险目前已经非常透明了，线上和线下价格差不多，不同的渠道顶多会有一些返点。</p>
+<p>建议还是在交付中心直接买保险，除非自己有比较好的渠道，如果自己找渠道会比较浪费时间，而且有些保险公司是不保 tesla 的。</p>
+<p>在交付中心买保险，也会有一些礼品赠送，不同时间买车礼品应该也会不一样，我领到的是：一个实体钥匙、前备箱垫。</p>
+<p>说一下保险费：商业险 (6121.31) + 交强险 （950）</p>
+<p>商业险包括：</p>
+<ul>
+<li>车损，保额就是车价（271550），费用 4306.07</li>
+<li>三者，保额上的 150w，费用 1166.32</li>
+<li>划痕险，保额上的 1w，费用 648.92</li>
+</ul>
+<p>PS： 2020年9月16日 费改之后，车损险包含：自燃、涉水、盗抢、无三方、不计免赔、车损本身</p>
+<h2 id="加装配置"><a href="#加装配置" class="headerlink" title="加装配置"></a>加装配置</h2><ul>
+<li>后排座椅自动加热</li>
+<li>自动辅助驾驶：BAP -&gt; EAP -&gt; FSD</li>
+<li>车膜（前后挡 + 4 个门）</li>
+<li>遮光罩 + 反光布</li>
+<li>随身充</li>
+<li>车衣、改色膜</li>
+<li>音响激活</li>
+<li>脚垫 + 座垫 + 前后备箱垫</li>
+<li>电动前、后备箱</li>
+<li>电吸门</li>
+<li>换大的车轮毂</li>
+<li>空调滤芯</li>
+</ul>
+<h2 id="用车提示"><a href="#用车提示" class="headerlink" title="用车提示"></a>用车提示</h2><p>买完车客服小姐姐的推过来的信息。</p>
+<blockquote><p>感谢您与我们一起加速世界向可持续能源的转变，接下来有一些注意事项和您分享：<br>1、日常用车能耗大小的排序是：座椅加热&lt;夏天使用空调&lt;开窗户开车&lt;冬天使用空调&lt;冬天起步&lt;急加速&lt;持续高速；<br>2、您的实际续航在车辆大屏幕左下角第三个图标“箭头”里的能量里显示，请您参考这里的公里数；<br>3、建议您的爱车每两年或者每四万公里做一次检测；每一年更换一次空调滤芯、每两年更换一次干燥剂和制动液，每四年更换一下电池冷却液，再就是春夏（2.9bar）和秋冬（3.1bar）交际的时候留意胎压变化，及时调整胎压；<br>4、您提车后会由北京五个服务中心为您提供服务。4009100707是我们的24小时客服～感谢您这段时间的配合和支持呀</p>
+</blockquote>
+
+<h2 id="充电"><a href="#充电" class="headerlink" title="充电"></a>充电</h2><p>关于充电，作为一名新手要了解的信息相对还有点多，单独分开总结一篇。</p>
+<a href="/basic-knowledge-of-electric-car-charging.html" title="上手电能汽车的基础知识">上手电能汽车的基础知识</a>
+
+
+
+<h2 id="跑长途"><a href="#跑长途" class="headerlink" title="跑长途"></a>跑长途</h2><p>2021年4月清明节，跑了一次长途，北京至武汉来回，去武汉是工作日错开高峰，回北京是假期车较多，总结几点心得。</p>
+<ul>
+<li>高速上开启自动辅助驾驶要小心，当道路变窄时，特斯拉并不会智能变道，也不会减速停车。</li>
+<li>高速上有较多服务区提供充电桩，都是国家电网的，一般都是 4 个，里面可能有坏的，规划充电服务区的时候，一定要看准服务区有充电桩，电量最好留点余量（吃过闷亏）。</li>
+<li>一般有比较多的高速出入口附近有 Tesla 的超级充电站。</li>
+<li>国家电网的充电桩部分电桩有可能充不进电，如遇到换一个试试。</li>
+<li>国家电网的充电桩可能导致 tesla 电池管理系统限制充电，可能充到一半不再能充进去电（换电桩也没用），这时需要去 tesla 超级充电桩充一下就会修复好。</li>
+<li>跑高速一般在 100-110 km&#x2F;h 左右最省电，超过 120 km&#x2F;h 电耗明显增加。</li>
+<li>特斯拉非常依赖道路上的白线，如果发现白线异常一定要提前接管车辆驾驶。高速道路修整时，道路上一般会变成网格减速带，此时驶入特斯拉直接不再工作，会报警让人接管，但不会自动减速或刹车制动！</li>
+<li>开启自动辅助驾驶在高速行驶过程中，如果旁边车道的车压上白线可能会导致特斯拉自动开启紧急刹车制动！如果后面有车跟的比较紧，会很危险！如果发现旁边车道有车可能压白线时，一定要及时接管车辆驾驶。</li>
+</ul>
+<h2 id="用车感受"><a href="#用车感受" class="headerlink" title="用车感受"></a>用车感受</h2><p>Telsa 对新手其实不太友好。</p>
+<p>自动辅助驾驶在某些情况下并不完全智能，如高速道路施工，道路突然变窄，特斯拉并不一定会自动刹车。自动辅助驾驶能解决绝大部分车道白线清晰道路的驾驶，容易让人放松警惕，在不熟悉的道路上如遇极端路况可能会反应不过来。</p>
+<p>特斯拉是怀挡操作，连续拨两次进入自动辅助驾驶，拨一次进入定速巡航模式。有一定的失误操作概率，如果误把定速巡航状态当做自动辅助驾驶状态有一定的危险概率，尤其是在高速行驶启用时。显示面板其实有提示，但没人指导，自己探索习得，个人判断需要对智能操作系统有较高的使用经验可能才行。</p>
+<p>特斯拉的动能回收机制，正常工作时有一定的刹车效果，容易让新手产生依赖，如依赖过度放松刹车的使用可能比较危险。其实它的工作是不稳定的，有可能减弱或失效。温度过低时，电池活性低，动能回收转化效率太低可能会导致该功能失效。电池充电过足，动能回收也可能减弱或消失。</p>
+<h2 id="快速链接"><a href="#快速链接" class="headerlink" title="快速链接"></a>快速链接</h2><ul>
+<li>车主手册地址：<a href="https://www.tesla.cn/ownersmanual">https://www.tesla.cn/ownersmanual</a></li>
+<li>DIY操作指南: <a href="https://www.tesla.cn/support/do-it-yourself-guides">https://www.tesla.cn/support/do-it-yourself-guides</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>life</category>
+        <category>car</category>
+      </categories>
+      <tags>
+        <tag>tesla</tag>
+        <tag>model3</tag>
+      </tags>
+  </entry>
+</search>

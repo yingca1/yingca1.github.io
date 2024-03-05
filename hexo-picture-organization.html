@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/black/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.caiying.me","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat","show_result":true},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="整理 Hexo 展示图片的各种方式，以及从长期维护，方便易用的角度介绍一下我个人总结的最佳实践。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 博客管理图片">
+<meta property="og:url" content="http://www.caiying.me/hexo-picture-organization.html">
+<meta property="og:site_name" content="Ying&#39;s Blog">
+<meta property="og:description" content="整理 Hexo 展示图片的各种方式，以及从长期维护，方便易用的角度介绍一下我个人总结的最佳实践。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-16T10:28:15.000Z">
+<meta property="article:modified_time" content="2024-03-05T22:56:47.306Z">
+<meta property="article:author" content="Ying Cai">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="picture">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.caiying.me/hexo-picture-organization.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://www.caiying.me/hexo-picture-organization.html","path":"hexo-picture-organization.html","title":"Hexo 博客管理图片"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Hexo 博客管理图片 | Ying's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J4B5SS77TE"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J4B5SS77TE","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Ying's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">learning, thinking and sharing.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">关键知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#post-asset-folder"><span class="nav-number">1.1.</span> <span class="nav-text">post_asset_folder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">引用图片的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fancybox-%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B%E5%A4%A7%E5%9B%BE"><span class="nav-number">1.3.</span> <span class="nav-text">fancybox (点击查看大图)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.4.</span> <span class="nav-text">图片压缩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">2.</span> <span class="nav-text">最佳实践</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ying Cai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yingca1" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yingca1" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/yingca1" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;yingca1" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://www.caiying.me/hexo-picture-organization.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ying Cai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ying's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Hexo 博客管理图片 | Ying's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo 博客管理图片
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-11-16 10:28:15" itemprop="dateCreated datePublished" datetime="2020-11-16T10:28:15Z">2020-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-03-05 22:56:47" itemprop="dateModified" datetime="2024-03-05T22:56:47Z">2024-03-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>整理 Hexo 展示图片的各种方式，以及从长期维护，方便易用的角度介绍一下我个人总结的最佳实践。</p>
+<span id="more"></span>
+
+<h2 id="关键知识"><a href="#关键知识" class="headerlink" title="关键知识"></a>关键知识</h2><h3 id="post-asset-folder"><a href="#post-asset-folder" class="headerlink" title="post_asset_folder"></a>post_asset_folder</h3><p>通过 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/asset-folders.html">文档</a> 查看 <code>post_asset_folder</code> 的详细介绍。</p>
+<p>简单总结：</p>
+<p>post_asset_folder &#x3D; false</p>
+<p><code>![](/images/image.jpg)</code> 这种方式引用图片都可以正常 work，</p>
+<p>post_asset_folder &#x3D; true</p>
+<p><code>![](/images/image.jpg)</code> 这种方式引用图片，仅在文章中显示，首页&#x2F;归档页将不再会显示图片，需要使用 标签插件 引用图片，才能正常显示。</p>
+<h3 id="引用图片的方式"><a href="#引用图片的方式" class="headerlink" title="引用图片的方式"></a>引用图片的方式</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/tag-plugins#Image">在文章中插入指定大小的图片。</a><br><code>&#123;% img [class names] /path/to/image [width] [height] '"title text" "alt text"' %&#125;</code><br>例如: <code>&#123;% img https://img.ifnnn.cn/b65dc1f4245a9a1230e78bac21f5ee6f.png?imageView2/2/w/640 500 400 %&#125;</code></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/asset-folders#%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%BC%95%E7%94%A8%E7%9A%84%E6%A0%87%E7%AD%BE%E6%8F%92%E4%BB%B6">引用文章的资源</a></p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;% asset_path filename %&#125;
+&#123;% asset_img [class names] slug [width] [height] [title text [alt text]] %&#125;
+&#123;% asset_link filename [title] [escape] %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/tag-plugins#Embed-image">关于 asset_img 的详细介绍</a></p>
+</li>
+</ol>
+<h3 id="fancybox-点击查看大图"><a href="#fancybox-点击查看大图" class="headerlink" title="fancybox (点击查看大图)"></a>fancybox (点击查看大图)</h3><p><a target="_blank" rel="noopener" href="https://github.com/theme-next/theme-next-fancybox3">https://github.com/theme-next/theme-next-fancybox3</a></p>
+<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><ul>
+<li>macOS: <a target="_blank" rel="noopener" href="https://imageoptim.com/command-line.html">https://imageoptim.com/command-line.html</a></li>
+<li>Windows: <a target="_blank" rel="noopener" href="https://nikkhokkho.sourceforge.io/static.php?page=FileOptimizer">https://nikkhokkho.sourceforge.io/static.php?page=FileOptimizer</a><ul>
+<li>下载地址: <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/">https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/</a></li>
+</ul>
+</li>
+<li>online: <a target="_blank" rel="noopener" href="https://img.top/">https://img.top/</a></li>
+<li>online: <a target="_blank" rel="noopener" href="https://squoosh.app/">https://squoosh.app/</a></li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
+<li><p>博客的源代码托管在 github，原则上不应该将大量的图片上传至 git 仓库，所以推荐采用 cdn 外链的方式插入图片。</p>
+</li>
+<li><p>虽然目前的图片cdn 都有魔法参数支持压缩、裁剪，但是原图尽量还是在不失真的前提下，压缩一下，节省体积。具体压缩方法可自由选择。</p>
+</li>
+<li><p>每个文件都有一个 md5 值，就将所有文章中使用的图片全部放在一个文件夹中，然后将文件名改为其 md5 值，保留原始后缀，然后将文件夹中的图片和 cdn 的某个目录保持同步。这样做的好处。</p>
+<ul>
+<li>这样管理很简单、不容易忘，这个文件夹也可以同步到百度云或者其他网盘中，方便备份。</li>
+<li>方便换 cdn 服务商。如果更换 cdn 厂商，只需同步下这个文件夹，全局替换下图片 host + prefix 即可。</li>
+<li>可以随时检查文件名和 md5 值是否一致，以确定是否是原图。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/picture/" rel="tag"># picture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/tesla-model3-overview.html" rel="prev" title="Tesla Model3 Overview">
+                  <i class="fa fa-angle-left"></i> Tesla Model3 Overview
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/basic-knowledge-of-electric-car-charging.html" rel="next" title="上手电能汽车的基础知识">
+                  上手电能汽车的基础知识 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments">
+    <script src="https://giscus.app/client.js"
+        data-repo="yingca1/yingca1.github.io" 
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMjg4NTUzNzU=" 
+        data-category="Announcements"
+        data-category-id="DIC_kwDODaQOT84COt8A"
+        data-mapping="pathname" 
+        data-reactions-enabled="1" 
+        data-emit-metadata="1" 
+        data-theme="preferred-color-scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        data-input-position="bottom"
+        data-loading="lazy"
+        async>
+    </script>
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ying Cai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yingca1" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","cdn":"//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
