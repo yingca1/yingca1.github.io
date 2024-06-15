@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Kubernetes 集群配置支持 GPU 节点</title>
+    <url>/configure-gpu-nodes-in-kubernetes-cluster.html</url>
+    <content><![CDATA[<h2 id="一般配置流程"><a href="#一般配置流程" class="headerlink" title="一般配置流程"></a>一般配置流程</h2><ol>
+<li>配置 Docker 环境</li>
+<li>安装 NVIDIA 驱动</li>
+<li>安装 NVIDIA Container Toolkit</li>
+<li>安装 NVIDIA GPU Operator</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="配置-Docker-环境"><a href="#配置-Docker-环境" class="headerlink" title="配置 Docker 环境"></a>配置 Docker 环境</h2><p>GPU 容器镜像一般比较大，而 docker 的默认存储路径在 <code>/var/lib/docker</code> 下，这个路径一般是系统盘，容易满。所以我们最好将 docker 的存储路径改到其他盘。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Stop docker service</span></span><br><span class="line">sudo systemctl stop docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># Move docker data directory to another location</span></span><br><span class="line">sudo <span class="built_in">mv</span> /var/lib/docker /data/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create a symbolic link</span></span><br><span class="line">sudo <span class="built_in">ln</span> -s /data/docker /var/lib/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># Start docker service</span></span><br><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p>或者直接修改 docker 配置文件 <code>/etc/docker/daemon.json</code>：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;data-root&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/data/docker&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="GPU-节点安装-NVIDIA-驱动"><a href="#GPU-节点安装-NVIDIA-驱动" class="headerlink" title="GPU 节点安装 NVIDIA 驱动"></a>GPU 节点安装 NVIDIA 驱动</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Driver Version: 535.129.03   CUDA Version: 12.2</span></span><br><span class="line">target_driver_version=<span class="string">&quot;535.129.03&quot;</span></span><br><span class="line"></span><br><span class="line">driver_version=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="string">&quot;<span class="variable">$driver_version</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Failed to retrieve NVIDIA driver version. Proceeding with installation...&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current NVIDIA driver version is <span class="variable">$driver_version</span>.&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$driver_version</span>&quot;</span> == <span class="string">&quot;<span class="variable">$target_driver_version</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Driver version <span class="variable">$target_driver_version</span> is already installed. Exiting installation.&quot;</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;A different version of NVIDIA driver is installed.&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Proceeding with the installation of the NVIDIA driver...&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Update apt cache</span></span><br><span class="line">sudo apt update </span><br><span class="line"></span><br><span class="line"><span class="comment"># install linux headers</span></span><br><span class="line">sudo apt install -y linux-headers-$(<span class="built_in">uname</span> -r)</span><br><span class="line"></span><br><span class="line"><span class="comment"># unload nvidia modules</span></span><br><span class="line">sudo rmmod nvidia_drm</span><br><span class="line">sudo rmmod nvidia_uvm</span><br><span class="line">sudo rmmod nvidia_modeset</span><br><span class="line">sudo rmmod nvidia</span><br><span class="line">sudo systemctl stop nvidia-*</span><br><span class="line"></span><br><span class="line"><span class="comment"># purge previous driver</span></span><br><span class="line">sudo apt-get -y --purge remove <span class="string">&quot;*cuda*&quot;</span> <span class="string">&quot;*cublas*&quot;</span> <span class="string">&quot;*cufft*&quot;</span> <span class="string">&quot;*cufile*&quot;</span> <span class="string">&quot;*curand*&quot;</span> <span class="string">&quot;*cusolver*&quot;</span> <span class="string">&quot;*cusparse*&quot;</span> <span class="string">&quot;*gds-tools*&quot;</span> <span class="string">&quot;*npp*&quot;</span> <span class="string">&quot;*nvjpeg*&quot;</span> <span class="string">&quot;nsight*&quot;</span> <span class="string">&quot;*nvvm*&quot;</span></span><br><span class="line">sudo apt-get -y --purge remove <span class="string">&quot;*nvidia*&quot;</span> <span class="string">&quot;libxnvctrl*&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -f /usr/bin/nvidia-uninstall ]; <span class="keyword">then</span></span><br><span class="line">    sudo /usr/bin/nvidia-uninstall  --ui=none --no-questions</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/cuda*</span><br><span class="line"></span><br><span class="line"><span class="comment"># Check if gcc is installed</span></span><br><span class="line"><span class="keyword">if</span> ! <span class="built_in">command</span> -v gcc &amp;&gt; /dev/null</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;gcc is not installed. Installing gcc now...&quot;</span></span><br><span class="line">    <span class="comment"># Update the package list</span></span><br><span class="line">    sudo apt-get update</span><br><span class="line">    <span class="comment"># Install gcc and other essential build tools</span></span><br><span class="line">    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;gcc has been installed.&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;gcc is already installed.&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">wget https://us.download.nvidia.com/tesla/<span class="variable">$&#123;target_driver_version&#125;</span>/NVIDIA-Linux-x86_64-<span class="variable">$&#123;target_driver_version&#125;</span>.run -O /tmp/nvidia_runfile_<span class="variable">$&#123;target_driver_version&#125;</span>.run</span><br><span class="line"><span class="built_in">chmod</span> +x /tmp/nvidia_runfile_<span class="variable">$&#123;target_driver_version&#125;</span>.run</span><br><span class="line"></span><br><span class="line"><span class="comment"># install driver</span></span><br><span class="line">sudo /tmp/nvidia_runfile_<span class="variable">$&#123;target_driver_version&#125;</span>.run --ui=none --no-questions --accept-license --disable-nouveau --no-cc-version-check --install-libglvnd </span><br><span class="line"></span><br><span class="line"><span class="comment"># load kernel module</span></span><br><span class="line">sudo nvidia-modprobe</span><br><span class="line"></span><br><span class="line">sudo nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-NVIDIA-Container-Toolkit"><a href="#安装-NVIDIA-Container-Toolkit" class="headerlink" title="安装 NVIDIA Container Toolkit"></a>安装 NVIDIA Container Toolkit</h2><ul>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">Installing the NVIDIA Container Toolkit</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \</span><br><span class="line">  &amp;&amp; curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \</span><br><span class="line">    sed <span class="string">&#x27;s#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g&#x27;</span> | \</span><br><span class="line">    sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/nvidia-container-toolkit.list</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment">#sudo DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nvidia-container-toolkit</span></span><br><span class="line">sudo apt-get install -y nvidia-container-toolkit</span><br><span class="line"></span><br><span class="line">sudo nvidia-ctk runtime configure --runtime=docker</span><br><span class="line"></span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Configure docker to use nvidia runtime</span></span><br><span class="line"><span class="comment"># https://github.com/NVIDIA/k8s-device-plugin#prerequisites</span></span><br><span class="line">sudo <span class="built_in">tee</span> /etc/docker/daemon.json &gt; /dev/null &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    &quot;default-runtime&quot;: &quot;nvidia&quot;,</span></span><br><span class="line"><span class="string">    &quot;runtimes&quot;: &#123;</span></span><br><span class="line"><span class="string">        &quot;nvidia&quot;: &#123;</span></span><br><span class="line"><span class="string">            &quot;path&quot;: &quot;/usr/bin/nvidia-container-runtime&quot;,</span></span><br><span class="line"><span class="string">            &quot;runtimeArgs&quot;: []</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-NVIDIA-GPU-Operator"><a href="#安装-NVIDIA-GPU-Operator" class="headerlink" title="安装 NVIDIA GPU Operator"></a>安装 NVIDIA GPU Operator</h2><ul>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html">Installing the NVIDIA GPU Operator</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl create ns gpu-operator</span><br><span class="line">kubectl label --overwrite ns gpu-operator pod-security.kubernetes.io/enforce=privileged</span><br><span class="line"></span><br><span class="line">kubectl get nodes -o json | jq <span class="string">&#x27;.items[].metadata.labels | keys | any(startswith(&quot;feature.node.kubernetes.io&quot;))&#x27;</span></span><br><span class="line"></span><br><span class="line">helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \</span><br><span class="line">    &amp;&amp; helm repo update</span><br><span class="line"></span><br><span class="line">helm install --<span class="built_in">wait</span> --generate-name \</span><br><span class="line">    -n gpu-operator --create-namespace \</span><br><span class="line">    nvidia/gpu-operator \</span><br><span class="line">    --<span class="built_in">set</span> driver.enabled=<span class="literal">false</span> \</span><br><span class="line">    --<span class="built_in">set</span> toolkit.enabled=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="测试-GPU-资源"><a href="#测试-GPU-资源" class="headerlink" title="测试 GPU 资源"></a>测试 GPU 资源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># With the daemonset deployed, NVIDIA GPUs can now be requested by a container using the nvidia.com/gpu resource type:</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> &lt;&lt;<span class="string">EOF | kubectl apply -f -</span></span><br><span class="line"><span class="string">apiVersion: v1</span></span><br><span class="line"><span class="string">kind: Pod</span></span><br><span class="line"><span class="string">metadata:</span></span><br><span class="line"><span class="string">  name: gpu-pod</span></span><br><span class="line"><span class="string">spec:</span></span><br><span class="line"><span class="string">  restartPolicy: Never</span></span><br><span class="line"><span class="string">  containers:</span></span><br><span class="line"><span class="string">    - name: cuda-container</span></span><br><span class="line"><span class="string">      image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2</span></span><br><span class="line"><span class="string">      resources:</span></span><br><span class="line"><span class="string">        limits:</span></span><br><span class="line"><span class="string">          nvidia.com/gpu: 1 # requesting 1 GPU</span></span><br><span class="line"><span class="string">  tolerations:</span></span><br><span class="line"><span class="string">  - key: nvidia.com/gpu</span></span><br><span class="line"><span class="string">    operator: Exists</span></span><br><span class="line"><span class="string">    effect: NoSchedule</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>团队协作的有效 Git 分支管理策略</title>
+    <url>/effective-git-branching-for-engineers.html</url>
+    <content><![CDATA[<p>对比 Git flow, Github flow, Gitlab flow, Trunk Based Development (TBD) 四种常见的 Git 分支策略，分析其优缺点和适用场景。</p>
+<span id="more"></span>
+
+<h2 id="实践中我遵循的规则"><a href="#实践中我遵循的规则" class="headerlink" title="实践中我遵循的规则"></a>实践中我遵循的规则</h2><h3 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h3><ol>
+<li>临时分支合并到长期分支时，使用 <code>squash merge</code>，确保长期分支的提交历史清晰可读。</li>
+<li>长期分支合并到主分支时，使用 <code>merge --no-ff</code> 模式，保留分支历史。</li>
+</ol>
+<h3 id="分支管理规则"><a href="#分支管理规则" class="headerlink" title="分支管理规则"></a>分支管理规则</h3><ol>
+<li>使用不同类型的分支 <code>main</code>, <code>fix/&lt;version&gt;</code>, <code>feat/&lt;name&gt;</code>, <code>test/&lt;name&gt;</code><ul>
+<li><code>main</code>: 主分支，用于发布稳定版本</li>
+<li><code>fix/&lt;version&gt;</code>: 修复分支，用于修复 main 分支上的各种问题</li>
+<li><code>feat/&lt;name&gt;</code>: 功能分支，用于开发新功能</li>
+<li><code>test/&lt;name&gt;</code>: 测试分支，用于支持多个 feat 分支动态组合测试</li>
+</ul>
+</li>
+<li>分支合并规则<ul>
+<li>fix 和 feat 分支合并到 main 分支，使用 squash merge，确保每个功能的提交历史清晰可读。</li>
+<li>fix 和 feat 分支合并到 test 分支，使用 merge –no-ff 模式，保留分支历史。</li>
+<li>test 分支仅用于测试，不允许直接合并到 main 分支。</li>
+</ul>
+</li>
+<li>通过 tag 发布版本，格式如<code>v1.2.3</code>，其中版本号遵循 <a href="https://semver.org/">Semantic Versioning</a></li>
+</ol>
+<h2 id="Git-Flow"><a href="#Git-Flow" class="headerlink" title="Git Flow"></a>Git Flow</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>Git Flow 定义了几种不同类型的分支（如 master、develop、feature、release、hotfix），每种分支都有特定的用途和生命周期。这使得开发过程更加有序和可管理。</p>
+<p>开发人员可以同时在不同的 feature 分支上工作，而不会相互干扰。这有助于提高团队的开发效率。</p>
+<p>master 分支始终保持生产环境的稳定版本，develop 分支用于集成所有的开发工作，这样即使在开发过程中，生产环境也能保持稳定。</p>
+<p>release 分支的存在使得版本发布变得更有条理。发布前的测试和 bug 修复可以在 release 分支上进行，确保发布的版本质量。</p>
+<p>hotfix 分支允许在紧急情况下迅速修复生产环境中的 bug，而不影响当前的开发工作。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>Git Flow 的分支结构较为复杂，对于小团队或较小项目来说，可能会显得过于繁琐和冗长。<br>冗长的发布周期：</p>
+<p>由于需要经过多个分支（feature -&gt; develop -&gt; release -&gt; master），从开发到发布的流程较长，不适合需要快速迭代的项目。</p>
+<p>多个并行开发的 feature 分支最终需要合并到 develop 分支，可能会产生大量的合并冲突，需要额外的时间和精力来解决。</p>
+<p>Git Flow 需要团队严格遵守分支管理策略和流程，对于管理不善的团队可能会导致混乱和低效。</p>
+<h3 id="典型案例或场景"><a href="#典型案例或场景" class="headerlink" title="典型案例或场景"></a>典型案例或场景</h3><p>大型企业项目。在大型企业项目中，团队规模大，开发任务繁多且复杂，Git Flow 可以帮助团队有序管理多个开发任务和发布版本，确保生产环境的稳定性和高质量的发布。</p>
+<p>长周期开发项目。对于一些开发周期较长的项目，Git Flow 的结构化分支管理可以帮助团队在开发过程中保持良好的版本控制和任务管理。<br>需要严格版本控制的项目：</p>
+<p>对于一些对版本控制和发布质量要求较高的项目，如银行系统、医疗系统等，Git Flow 可以提供清晰的分支管理和发布流程，确保版本的稳定性和可靠性。</p>
+<p>拥有专门 DevOps 团队的项目。对于拥有专门 DevOps 团队的大型项目，Git Flow 可以很好地与 CI&#x2F;CD 流程结合，自动化测试和部署，确保高效的发布流程。</p>
+<h2 id="Github-Flow"><a href="#Github-Flow" class="headerlink" title="Github Flow"></a>Github Flow</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><p>简单易学。GitHub Flow 的操作步骤简单，包括创建分支、提交更改、发起 Pull Request、代码评审和合并分支。由于流程简单，团队成员可以更快上手和适应。</p>
+<p>持续部署和集成。每次合并到 main 分支的更改都可以直接部署到生产环境，适合需要频繁更新和快速发布的项目。<br>与持续集成工具（如 GitHub Actions）结合使用，可以自动化测试和部署流程。</p>
+<p>代码审查。通过 Pull Request，团队成员可以对代码更改进行审查，提高代码质量和一致性。<br>Pull Request 提供了一个讨论和反馈的平台，有助于团队协作和知识共享。</p>
+<p>鼓励小步快跑。GitHub Flow 鼓励开发者频繁提交小的、更容易管理的更改，降低了大规模变更带来的风险。</p>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><p>对持续部署的依赖。由于每次合并到 main 分支的代码都可能直接部署到生产环境，如果没有完善的自动化测试和回滚机制，可能导致生产环境的不稳定。</p>
+<p>不适合复杂的发布流程。对于需要多个发布分支、热修复分支或复杂版本管理的项目，GitHub Flow 可能显得过于简单和不够灵活。</p>
+<p>分支管理限制。GitHub Flow 主要依赖于 main 分支和特性分支，对于需要长期维护的分支（如 LTS 版本）可能不太适用。</p>
+<p>合并冲突管理。由于频繁合并到 main 分支，可能会增加合并冲突的频率，特别是当团队规模较大或并行开发的特性较多时。</p>
+<h3 id="典型案例或场景-1"><a href="#典型案例或场景-1" class="headerlink" title="典型案例或场景"></a>典型案例或场景</h3><p>开源项目。许多开源项目采用 GitHub Flow，因为它简单明了，适合快速迭代。开发者可以在本地创建特性分支，完成功能后发起 Pull Request。通过社区成员的代码审查和测试，最终合并到 main 分支并发布新版本。例如，许多 JavaScript 库和工具类项目都采用这种工作流程。</p>
+<p>小型创业公司。小型创业公司通常需要快速响应市场需求和用户反馈。采用 GitHub Flow，可以快速实现和发布新功能。团队成员可以在各自的分支上工作，提交代码并通过 Pull Request 进行代码审查和合并，确保每次发布的代码都是最新的和经过审核的。例如，一个正在快速发展的 SaaS 产品团队可能会使用 GitHub Flow 来确保他们的产品能够快速迭代和更新。</p>
+<p>持续集成和部署（CI&#x2F;CD）。对于一些依赖 CI&#x2F;CD 的团队，GitHub Flow 是理想的选择。每次提交和合并到 main 分支的代码都会自动触发构建、测试和部署过程，确保所有更改都经过测试并能够迅速部署到生产环境。例如，一个 DevOps 团队可能会使用 GitHub Flow 来实现自动化的代码测试和部署，确保代码的高质量和系统的稳定运行。</p>
+<h2 id="Gitlab-Flow"><a href="#Gitlab-Flow" class="headerlink" title="Gitlab Flow"></a>Gitlab Flow</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><p>简化的分支模型：Gitlab Flow 通常采用主干分支（main&#x2F;master）和功能分支（feature branches）的简单模型，避免了 Git Flow 中复杂的分支结构。</p>
+<p>与 CI&#x2F;CD 集成良好：Gitlab Flow 强调与 CI&#x2F;CD 工具的集成，这使得自动化测试、构建和部署变得更加流畅和高效。</p>
+<p>环境分支支持：Gitlab Flow 支持为不同的部署环境（如开发、测试、生产）创建独立的分支。这些环境分支可以帮助团队更好地管理和协调不同环境中的代码变更。</p>
+<p>更快的发布周期：通过直接在主干分支上进行开发和部署，Gitlab Flow 能够实现更快的发布周期，有助于频繁发布和快速响应用户需求。</p>
+<p>灵活性：Gitlab Flow 可以根据项目需求进行定制，适用于不同规模和复杂度的项目。</p>
+<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><p>代码稳定性风险：由于主干分支上的变更频繁，未经过充分测试的代码可能会影响系统的稳定性。这需要严格的代码审查和测试流程来保障质量。</p>
+<p>复杂的环境管理：虽然环境分支可以帮助管理不同环境，但也可能增加分支管理的复杂性，尤其是在处理多个环境时。</p>
+<p>合并冲突：频繁的分支合并可能导致更多的合并冲突，需要开发团队花费更多时间解决冲突问题。</p>
+<p>学习曲线：虽然 Gitlab Flow 相对简单，但对于习惯其他工作流（如 Git Flow）的团队来说，可能需要一些时间来适应和学习。</p>
+<h3 id="典型案例或场景-2"><a href="#典型案例或场景-2" class="headerlink" title="典型案例或场景"></a>典型案例或场景</h3><p>持续交付的 SaaS 项目：一个持续交付的 SaaS 项目可以从 Gitlab Flow 中受益，通过频繁的功能分支和主干分支合并，快速将新功能发布到生产环境。</p>
+<p>具有多环境部署的企业项目：一个具有开发、测试、预生产和生产环境的大型企业项目，可以使用环境分支来管理不同阶段的部署，确保每个环境中的代码稳定性。</p>
+<p>敏捷开发团队：敏捷开发团队可以利用 Gitlab Flow 的简单分支模型和快速发布能力，快速响应用户反馈，迭代产品功能。</p>
+<p>开源项目：对于开源项目，Gitlab Flow 提供了一个简洁的工作流，使得贡献者可以轻松地创建功能分支，提交合并请求，并快速合并到主干分支。</p>
+<h2 id="Trunk-Based-Development-TBD"><a href="#Trunk-Based-Development-TBD" class="headerlink" title="Trunk Based Development (TBD)"></a>Trunk Based Development (TBD)</h2><h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><p>持续集成和交付（CI&#x2F;CD）：<br>频繁集成：开发人员将其工作频繁地合并到主分支，这有助于尽早发现集成问题。<br>持续交付：因为主分支始终保持在可部署状态，新的功能和修复可以更快速地发布到生产环境。</p>
+<p>代码质量：<br>更少的合并冲突：由于开发人员频繁地合并代码，合并冲突相对较少且更容易解决。<br>更高的代码质量：通过频繁的代码审查和自动化测试，可以保持较高的代码质量。</p>
+<p>提高团队协作：<br>简单的分支模型：开发人员在一个共同的主分支上工作，减少了复杂的分支管理。<br>一致性：所有开发人员都基于同一个代码基进行开发，确保团队的一致性。</p>
+<p>更快的反馈：<br>快速迭代：由于代码更频繁地集成，反馈周期更短，开发人员可以更快地获得关于代码变更的反馈。</p>
+<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><p>纪律和流程要求高：<br>严格的代码审查和测试：为了保持主分支的稳定性，必须有严格的代码审查和自动化测试流程，这对团队的纪律性要求较高。<br>工具支持：需要良好的持续集成工具和自动化测试框架支持，以确保每次合并都能快速验证。</p>
+<p>高频率的合并：<br>潜在的中断：频繁的合并操作可能会对开发人员的工作流造成中断。<br>代码质量问题：如果没有严格的代码审查，频繁合并可能会导致代码质量问题。</p>
+<p>团队规模限制：<br>适合小团队：这种方法更适合小型或中型团队，因为大型团队在主分支上同时工作的开发人员太多时，可能会出现管理上的挑战。</p>
+<h3 id="典型案例或场景-3"><a href="#典型案例或场景-3" class="headerlink" title="典型案例或场景"></a>典型案例或场景</h3><p>持续交付的互联网公司。许多互联网公司，例如 Facebook 和 Google，采用 TBD 方法来保证产品的快速迭代和发布。他们通过完善的持续集成和交付（CI&#x2F;CD）流程，能够快速将新功能和修复推送到生产环境。</p>
+<p>敏捷开发团队。在敏捷开发环境中，团队需要快速响应变化。TBD 允许团队在每个迭代周期中频繁发布，确保产品的快速迭代和交付。</p>
+<p>开源项目。一些开源项目也采用 TBD 方法，确保主分支始终保持可用状态，并允许贡献者频繁提交代码。这种方法有助于保持项目的稳定性和高质量。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>A successful Git branching model <a href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/</a></li>
+<li>Git-Flow, GitHub-Flow, Gitlab-Flow and Trunk Based Development explained <a href="https://steven-giesel.com/blogPost/ff50f268-c0bf-44d8-a5b8-41554ab50ba8">https://steven-giesel.com/blogPost/ff50f268-c0bf-44d8-a5b8-41554ab50ba8</a></li>
+<li>What are GitLab Flow best practices? <a href="https://about.gitlab.com/topics/version-control/what-are-gitlab-flow-best-practices/">https://about.gitlab.com/topics/version-control/what-are-gitlab-flow-best-practices/</a></li>
+<li>Combine GitLab Flow and GitLab Duo for a workflow powerhouse <a href="https://about.gitlab.com/blog/2023/07/27/gitlab-flow-duo/">https://about.gitlab.com/blog/2023/07/27/gitlab-flow-duo/</a></li>
+<li>GitHub flow - Follow GitHub flow to collaborate on projects. <a href="https://docs.github.com/en/get-started/using-github/github-flow">https://docs.github.com/en/get-started/using-github/github-flow</a></li>
+<li>Trunk Based Development <a href="https://trunkbaseddevelopment.com/">https://trunkbaseddevelopment.com/</a></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>开发者必备的 Kubernetes 效率工具合集</title>
+    <url>/essential-kubernetes-tools-for-developers.html</url>
+    <content><![CDATA[<p>Kubernetes有许多工具可以帮助你更好地管理和使用它。</p>
+<span id="more"></span>
+
+<p>以下是一些常用的工具：</p>
+<ul>
+<li><strong>kubectl</strong>: Kubernetes的命令行工具，用于与Kubernetes集群进行交互。</li>
+<li><strong>krew</strong>: 用于扩展kubectl功能的插件管理器。</li>
+<li><strong>kubectx&#x2F;kubens</strong>: 用于快速切换Kubernetes上下文和命名空间的工具。</li>
+<li><strong>stern</strong>: 用于查看多个Pod日志的工具。</li>
+<li><a href="https://github.com/kubetail-org/kubetail"><strong>kubetail</strong></a>: 用于在Web中查看多个Pod日志的工具。</li>
+<li><strong>kubefwd</strong>: 用于将Kubernetes服务端口转发到本地的工具。</li>
+<li><strong>lens</strong>: 用于可视化Kubernetes集群的IDE。</li>
+<li><strong>k9s</strong>: 用于交互式地管理Kubernetes集群的终端UI。</li>
+<li><strong>rancher</strong>: 用于管理Kubernetes集群的UI。</li>
+<li><strong>kustomize</strong>: 用于管理Kubernetes配置的工具。</li>
+<li><strong>Helm</strong>: Kubernetes的包管理工具，用于简化应用程序的部署和管理。</li>
+<li><strong>minikube</strong>: 用于在本地机器上运行单节点Kubernetes集群的工具。</li>
+<li><strong>kind</strong>: 用于在Docker容器中运行Kubernetes集群的工具。</li>
+<li><strong>kubespray</strong>: 用于在多个主机上部署Kubernetes集群的工具。</li>
+<li><strong>kubeshark</strong>: 用于在Kubernetes集群中进行网络抓包的工具。<br>– <strong>easzlab&#x2F;kubeasz</strong> 使用Ansible脚本安装K8S集群，介绍组件交互原理，方便直接，不受国内网络环境影响</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>kubernetes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kubernetes 新手指南：快速入门教程</title>
+    <url>/kubernetes-beginners-guide-quick-start-tutorial.html</url>
+    <content><![CDATA[<h2 id="Kubernetes-简介"><a href="#Kubernetes-简介" class="headerlink" title="Kubernetes 简介"></a>Kubernetes 简介</h2><p>在早期，应用程序大多运行在物理服务器上。这种方法有一个明显的缺点：资源利用率低。一个应用程序可能只需要一部分资源，但整个服务器的资源都被占用了。为了解决这个问题，虚拟化技术应运而生。通过在一台物理服务器上运行多个虚拟机，可以更高效地利用资源。</p>
+<p>然而，虚拟机也有自己的局限性。它们启动慢，占用资源多。于是，容器技术开始流行起来。容器比虚拟机更轻量级，启动更快，资源利用更高效。Docker作为容器技术的代表迅速普及。</p>
+<p>随着容器数量的增加，管理这些容器变得越来越复杂。你需要一种工具来<strong>自动化容器的部署、伸缩和管理</strong>。于是，Kubernetes应运而生。Kubernetes最初由Google开发，并在2014年捐赠给Cloud Native Computing Foundation (CNCF)。它的目标是提供一种自动化的、可扩展的容器编排解决方案。</p>
+<p>同类的容器编排工具还有Docker Swarm、Mesos、Nomad、OpenShift等。</p>
+<span id="more"></span>
+
+<h2 id="Kubernetes-最常见的核心组件"><a href="#Kubernetes-最常见的核心组件" class="headerlink" title="Kubernetes 最常见的核心组件"></a>Kubernetes 最常见的核心组件</h2><ol>
+<li><p>节点（Node）：<br>节点是运行容器的机器，可以是物理机也可以是虚拟机。一个Kubernetes集群由多个节点组成。</p>
+</li>
+<li><p>Pod：<br>Pod是Kubernetes中最小的部署单元，一个Pod可以包含一个或多个容器，这些容器共享网络和存储资源。Pod一般用于运行一个单独的微服务。</p>
+</li>
+<li><p>服务（Service）：<br>服务是一种抽象，定义了一组Pod的逻辑集合，以及访问这些Pod的策略。服务为Pod提供了稳定的网络端点，即使Pod的实例变化，服务的IP地址也不会变。</p>
+</li>
+<li><p>部署（Deployment）：<br>部署管理Pod的创建和更新。它确保你的应用始终运行指定数量的Pod，并支持滚动更新和回滚操作。</p>
+</li>
+<li><p><strong>ConfigMap和Secret</strong>：<br>ConfigMap用于保存非机密的配置信息，例如配置文件。Secret则用于保存敏感信息，例如密码或密钥。</p>
+</li>
+</ol>
+<h2 id="Kubernetes-最常见的操作"><a href="#Kubernetes-最常见的操作" class="headerlink" title="Kubernetes 最常见的操作"></a>Kubernetes 最常见的操作</h2><ol>
+<li><p><strong>创建Pod</strong>：<br>使用YAML文件定义Pod，然后通过<code>kubectl apply -f pod.yaml</code>命令创建Pod。例如，一个简单的Pod配置文件可能长这样：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">my-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看Pod状态</strong>：<br>通过<code>kubectl get pods</code>命令查看集群中所有Pod的状态。可以加上<code>-o wide</code>选项查看更多详细信息。</p>
+</li>
+<li><p><strong>访问Pod日志</strong>：<br>通过<code>kubectl logs my-pod</code>命令查看Pod的日志输出，帮助你调试和监控应用。</p>
+</li>
+<li><p><strong>创建服务</strong>：<br>使用YAML文件定义服务，然后通过<code>kubectl apply -f service.yaml</code>命令创建服务。例如，一个简单的服务配置文件可能长这样：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">my-app</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>滚动更新</strong>：<br>使用<code>kubectl set image deployment/my-deployment my-container=new-image</code>命令更新容器镜像，然后Kubernetes会自动进行滚动更新，确保服务不中断。</p>
+</li>
+<li><p><strong>缩放部署</strong>：<br>通过<code>kubectl scale deployment my-deployment --replicas=5</code>命令调整Pod数量，Kubernetes会自动创建或删除Pod以达到指定数量。</p>
+</li>
+<li><p><strong>查看集群状态</strong>：<br>使用<code>kubectl get nodes</code>命令查看所有节点的状态，确保集群正常运行。</p>
+</li>
+</ol>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
+<li><p><strong>如何与Kubernetes集群交互？</strong></p>
+<p> 与Kubernetes集群交互需要获得集群的访问权限，通常通过配置<code>kubeconfig</code>文件。然后你可以通过以下方式与集群交互：</p>
+<ul>
+<li>使用<code>kubectl</code>命令行工具</li>
+<li>使用Kubernetes API</li>
+<li>使用Kubernetes Dashboard</li>
+<li>使用其他Kubernetes客户端工具，如Lens、k9s等。</li>
+</ul>
+</li>
+<li><p><strong>如何在本地快速搭建Kubernetes集群？</strong></p>
+<p> 你可以使用<code>minikube</code>或<code>kind</code>在本地机器上运行单节点Kubernetes集群，用于开发和测试。</p>
+</li>
+<li><p><strong>如何监控Kubernetes集群？</strong></p>
+<p> 你可以使用Prometheus、Grafana等监控工具来监控Kubernetes集群的状态，包括节点资源利用率、Pod状态等。</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>tutorial</tag>
+      </tags>
+  </entry>
+</search>
