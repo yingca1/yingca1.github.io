@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>A2A on Ying's Notes</title><link>https://www.caiying.me/zh/tags/a2a/</link><description>Recent content in A2A on Ying's Notes</description><generator>Hugo</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Aug 2025 12:00:00 +0100</lastBuildDate><atom:link href="https://www.caiying.me/zh/tags/a2a/index.xml" rel="self" type="application/rss+xml"/><item><title>不止是API：为什么A2A协议将成为AI智能体时代的基石</title><link>https://www.caiying.me/zh/posts/more-than-api-a2a/</link><pubDate>Fri, 22 Aug 2025 12:00:00 +0100</pubDate><guid>https://www.caiying.me/zh/posts/more-than-api-a2a/</guid><description>&lt;p>我们正处在一个AI智能体（Agent）大爆发的前夜。从个人助理到企业自动化流程，无数聪明的“数字员工”正在涌现。然而，一个严峻的现实摆在我们面前：这些智能体大多生活在自己的技术孤岛中，说着不同的“方言”，无法有效沟通。我们正在建造一座新的、数字化的“巴别塔”。&lt;/p>
+&lt;p>就在这时，Agent2Agent（A2A）协议应运而生。&lt;/p>
+&lt;p>初看A2A的教程，许多技术人员的第一反应可能会是：“这……不就是一个定义了几个接口的异步任务协议吗？我用REST API也能做，有什么特别的？”&lt;/p>
+&lt;p>如果你有这个想法，恭喜你，你已经看透了它的技术表象。但这恰恰是理解A2A伟大使命的起点。它的“特别”之处，不在于技术的复杂性，而在于它所构建的**“共识”**——一个足以支撑起未来整个智能体经济的共识。&lt;/p>
+&lt;h3 id="一切从那个aha时刻开始它是一个标准而非一项技术">一切从那个“Aha!”时刻开始：它是一个标准，而非一项技术&lt;/h3>
+&lt;p>要理解A2A，我们必须先放下对“革命性技术”的执念。A2A的价值，更像是我们今天人手一个的USB-C接口。&lt;/p>
+&lt;p>USB-C本身的技术（传输数据和电力）并非遥不可及，但它的真正威力在于，几乎所有厂商都同意使用它，从而终结了那个充电器五花八门的混乱时代。&lt;strong>这个“共识”的价值，远超技术本身。&lt;/strong>&lt;/p>
+&lt;p>A2A协议就是AI智能体世界的“USB-C”。在没有它的世界里，一个智能体要与N个其他智能体协作，就需要N次定制化的API集成开发，这是一个&lt;code>N*N&lt;/code>的噩梦。有了A2A，每个智能体只需要实现&lt;code>1&lt;/code>次标准，理论上就能与所有&lt;code>N&lt;/code>个伙伴对话，将问题降维到了&lt;code>N*1&lt;/code>。&lt;/p>
+&lt;h3 id="协议的核心引擎一套优雅的异步任务仪式">协议的核心引擎：一套优雅的“异步任务仪式”&lt;/h3>
+&lt;p>智能体的任务，如“为我规划一次为期一周的欧洲旅行”，往往耗时且复杂。因此，异步处理是必需的。但若没有标准，异步实现会五花八门：有的需要轮询，有的需要Webhook回调，有的用WebSocket……&lt;/p>
+&lt;p>A2A则规定了一套统一、标准的“任务处理仪式”：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>任务创建 (&lt;code>create_task&lt;/code>)&lt;/strong>：客户端智能体提交任务，并立即获得一个唯一的**&lt;code>task_id&lt;/code>**（任务ID），就像拿到一张订单号。&lt;/li>
+&lt;li>&lt;strong>状态查询 (&lt;code>get_task&lt;/code>)&lt;/strong>：客户端使用&lt;code>task_id&lt;/code>随时查询任务进度。服务端会返回标准化的状态，如 &lt;code>RUNNING&lt;/code>, &lt;code>COMPLETED&lt;/code>, &lt;code>FAILED&lt;/code>。&lt;/li>
+&lt;li>&lt;strong>结果获取&lt;/strong>：当任务状态变为&lt;code>COMPLETED&lt;/code>，最终结果会包含在状态查询的响应中。&lt;/li>
+&lt;/ol>
+&lt;p>这套简洁的流程，将开发者从适配各种奇怪的异步逻辑中解放出来。你的智能体只需学会这套“礼仪”，就能与生态中任何一个成员进行可靠、可预测的复杂协作。&lt;/p>
+&lt;p>是的，到这里，你可以精准地总结：&lt;strong>A2A协议是一个极其出色的通用异步任务协议。&lt;/strong> 但这只是它的骨架。真正让它与众不同，让它成为“智能体”协议的，是它在此之上的三大支柱。&lt;/p>
+&lt;h3 id="a2a的三大支柱从能通信到能协作">A2A的三大支柱：从“能通信”到“能协作”&lt;/h3>
+&lt;p>如果说异步任务是A2A的“骨架”，那么发现、理解和信任机制就是它的“血肉”与“灵魂”。&lt;/p>
+&lt;h4 id="1-发现机制全球智能体供应商黄页-agent-card">1. 发现机制：“全球智能体供应商黄页” (Agent Card)&lt;/h4>
+&lt;p>&lt;strong>问题：&lt;/strong> 我如何找到能帮我订机票的智能体？&lt;/p>
+&lt;p>&lt;strong>A2A的方案：&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>基础约定 (&lt;code>/.well-known/agent.json&lt;/code>)&lt;/strong>：每个智能体可以在其域名的标准位置发布一张名为&lt;code>Agent Card&lt;/code>的“数字名片”，介绍自己的身份和能力。这是一种简单、去中心化的发现方式。&lt;/li>
+&lt;li>&lt;strong>生态模式 (Agent Registries)&lt;/strong>：更强大的模式是建立“智能体注册中心”或“智能体商店”。企业可以在内部建立私有目录，也可以出现面向公众的、类似App Store的智能体市场，提供搜索、分类、审核和排名。&lt;/li>
+&lt;/ul>
+&lt;p>这解决了协作的第一个问题：&lt;strong>我如何找到你？&lt;/strong>&lt;/p>
+&lt;h4 id="2-理解机制标准化的产品目录-capability-schema">2. 理解机制：“标准化的产品目录” (Capability Schema)&lt;/h4>
+&lt;p>&lt;strong>问题：&lt;/strong> 找到了你，我如何知道你具体能做什么？以及如何正确地向你下达指令？这和OpenAPI有什么不同？&lt;/p>
+&lt;p>&lt;strong>A2A的方案：&lt;/strong>
+&lt;code>Agent Card&lt;/code>中包含了标准化的“能力清单”（Capability Schema）。它和OpenAPI最大的区别在于&lt;strong>抽象层级和目标用户&lt;/strong>。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>OpenAPI&lt;/strong> 面向&lt;strong>人类开发者&lt;/strong>，详细描述整个服务的&lt;strong>底层API接口&lt;/strong>（如&lt;code>GET /flights&lt;/code>, &lt;code>POST /bookings&lt;/code>）。&lt;/li>
+&lt;li>&lt;strong>A2A的Schema&lt;/strong> 面向&lt;strong>AI智能体&lt;/strong>，描述的是智能体能完成的&lt;strong>端到端业务任务&lt;/strong>（如&lt;code>task_name: &amp;quot;find_and_book_cheapest_flight&amp;quot;&lt;/code>）。&lt;/li>
+&lt;/ul>
+&lt;p>这种更高层级的业务抽象，让智能体之间的沟通从“调用你的技术接口”升级为“请你帮我完成这项业务”，是实现真正自主协作的关键。这解决了第二个问题：&lt;strong>我如何理解你？&lt;/strong>&lt;/p>
+&lt;h4 id="3-信任机制企业征信与认证体系-identity--trust">3. 信任机制：“企业征信与认证体系” (Identity &amp;amp; Trust)&lt;/h4>
+&lt;p>&lt;strong>问题：&lt;/strong> 我为什么要相信你？如何安全地授权你代表我行动？&lt;/p>
+&lt;p>&lt;strong>A2A的方案：&lt;/strong>
+这是一个分两步走的务实策略。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>当下：拥抱现有Web标准&lt;/strong>。A2A的&lt;code>Agent Card&lt;/code>直接兼容&lt;strong>OAuth 2.0 / OIDC&lt;/strong>等成熟的安全规范。这意味着企业现有的身份认证和授权系统可以无缝接入，让智能体能够安全地在用户授权下代表其行事。&lt;/li>
+&lt;li>&lt;strong>未来：迈向去中心化身份&lt;/strong>。A2A的终极愿景与**去中心化身份（DIDs）&lt;strong>和&lt;/strong>可验证凭证（VCs）**紧密相连。未来，智能体将拥有自己独立的“数字身份”，并携带由权威机构颁发的、可被密码学验证的“能力证书”或“授权证书”，从而在无需中心化机构的情况下，建立动态、安全的信任关系。&lt;/li>
+&lt;/ul>
+&lt;p>这解决了协作最深刻的问题：&lt;strong>我为何以及如何信任你？&lt;/strong>&lt;/p></description></item></channel></rss>
